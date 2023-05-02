@@ -1,6 +1,10 @@
 const { ethers } = require("hardhat");
 
-async function main() {
+// pass the owner address as a parameter to the main function
+async function main(ownerAddress) {
+  // retrieve the owner account object from ethers
+  const owner = await ethers.getSigner(ownerAddress);
+
   const transactionCount = await owner.getTransactionCount();
 
   // gets the address of the token before it is deployed
@@ -21,7 +25,10 @@ async function main() {
   );
 }
 
-main().catch((error) => {
+// retrieve the owner address from a config file or environment variable
+const ownerAddress = process.env.OWNER_ADDRESS;
+
+main(ownerAddress).catch((error) => {
   console.error(error);
   process.exitCode = 1;
 });
